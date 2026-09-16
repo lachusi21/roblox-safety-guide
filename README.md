@@ -32,18 +32,16 @@ node build.mjs && npx serve public
 
 ## 部署
 
-推到 `main` 會同時觸發兩個 workflow：
+推到 `main` 會觸發兩條各自獨立的部署：
 
-- **`.github/workflows/github-pages.yml`** — 建置後部署到 GitHub Pages。不需要額外設定。
-- **`.github/workflows/cloudflare-pages.yml`** — 建置後部署到 Cloudflare Pages。需要兩個 repository secret：
+- **GitHub Pages** — 由 [.github/workflows/github-pages.yml](.github/workflows/github-pages.yml) 建置並部署，不需要額外設定。
+  網址：<https://lachusi21.github.io/roblox-safety-guide/>
 
-  | Secret | 從哪裡拿 |
-  | --- | --- |
-  | `CLOUDFLARE_API_TOKEN` | Cloudflare 主控台 → My Profile → API Tokens，權限選 `Cloudflare Pages: Edit` |
-  | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare 主控台右側欄，或網址列 `dash.cloudflare.com/<account-id>` |
+- **Cloudflare Workers（靜態資產）** — 在 Cloudflare 主控台連接這個 repo 之後由 Cloudflare 自己建置，不經過 GitHub Actions、也不需要 API token。
+  設定值：建置指令 `node build.mjs`，輸出目錄 `public`，其餘由 [wrangler.jsonc](wrangler.jsonc) 決定。
 
-  沒設定這兩個 secret 時，這個 workflow 會直接跳過而不是失敗。
-  專案名稱在 workflow 的 `CF_PROJECT_NAME` 環境變數裡調整。
+  > 舊的 Cloudflare Pages「Connect to Git」流程已經從主控台移除，
+  > 現在的入口是 **Compute (Workers & Pages) → Create → Continue with GitHub**。
 
 ## 技術細節
 

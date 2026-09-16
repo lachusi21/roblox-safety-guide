@@ -1,0 +1,14 @@
+{
+  // 純靜態網站：沒有 main 進入點，只把 build 出來的 public/ 當成靜態資產送出。
+  // Cloudflare 主控台連接 Git 之後，建置指令設為 `node build.mjs`，其餘照這個檔案走。
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "roblox-safety-guide",
+  "compatibility_date": "2026-09-16",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "404-page"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
