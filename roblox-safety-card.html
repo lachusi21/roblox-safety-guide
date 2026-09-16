@@ -1,0 +1,469 @@
+<title>Roblox 安全須知</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap">
+<style>
+  :root {
+    --paper:      #F1F4F9;
+    --surface:    #FFFFFF;
+    --ink:        #181C27;
+    --ink-soft:   #576073;
+    --ink-faint:  #8C94A6;
+    --rule:       #DDE2EB;
+    --brand:      #3B3FBF;
+    --brand-soft: #E9EAFA;
+    --stop:       #C93326;
+    --stop-soft:  #FCEEEC;
+    --think:      #B87708;
+    --think-soft: #FCF3E1;
+    --go:         #16794B;
+    --go-soft:    #E6F3EC;
+
+    --f-display: "Noto Serif TC", "PingFang TC", "Microsoft JhengHei", serif;
+    --f-body:    "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+    --f-mono:    "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #101219;
+      --surface:    #191C25;
+      --ink:        #ECEFF6;
+      --ink-soft:   #A0A8BB;
+      --ink-faint:  #767E92;
+      --rule:       #2B303C;
+      --brand:      #8D90FF;
+      --brand-soft: #1C1E33;
+      --stop:       #FF7466;
+      --stop-soft:  #2B1917;
+      --think:      #F2B33C;
+      --think-soft: #2A2011;
+      --go:         #4ACF8C;
+      --go-soft:    #12261C;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:      #101219;
+    --surface:    #191C25;
+    --ink:        #ECEFF6;
+    --ink-soft:   #A0A8BB;
+    --ink-faint:  #767E92;
+    --rule:       #2B303C;
+    --brand:      #8D90FF;
+    --brand-soft: #1C1E33;
+    --stop:       #FF7466;
+    --stop-soft:  #2B1917;
+    --think:      #F2B33C;
+    --think-soft: #2A2011;
+    --go:         #4ACF8C;
+    --go-soft:    #12261C;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 15px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 680px;
+    margin: 0 auto;
+    padding-inline: 20px;
+    padding-block: 32px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* 積木上的凸點 */
+  .studs {
+    height: 14px;
+    background-image: radial-gradient(circle at 7px 7px, var(--brand) 3.2px, transparent 3.6px);
+    background-size: 20px 14px;
+    background-repeat: repeat-x;
+    opacity: .55;
+  }
+
+  /* ---- 標頭 ---- */
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 14px 24px;
+  }
+  .eyebrow {
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin: 0 0 8px;
+  }
+  h1 {
+    font-family: var(--f-display);
+    font-weight: 900;
+    font-size: clamp(28px, 6vw, 38px);
+    line-height: 1.32;
+    letter-spacing: .01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .lede {
+    margin: 10px 0 0;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+  .printbtn {
+    font-family: var(--f-body);
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1.5px solid var(--rule);
+    border-radius: 7px;
+    padding: 9px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .printbtn:hover { border-color: var(--brand); color: var(--brand); }
+  .printbtn:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+
+  /* ---- 三個等級 ---- */
+  .tier {
+    background: var(--surface);
+    border: 1.5px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    break-inside: avoid;
+  }
+  .tier-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px 12px;
+    padding: 12px 18px;
+    background: var(--tint);
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .tier-mark {
+    width: 13px; height: 13px;
+    border-radius: 3px;
+    background: var(--tone);
+    flex: none;
+  }
+  .tier-name {
+    font-family: var(--f-display);
+    font-weight: 900;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--tone);
+  }
+  .tier-note {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-left: auto;
+  }
+
+  .rule {
+    display: grid;
+    grid-template-columns: 38px 1fr;
+    gap: 2px 12px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--rule);
+  }
+  .rule:first-of-type { border-top: none; }
+  .rule-no {
+    font-family: var(--f-mono);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--tone);
+    font-variant-numeric: tabular-nums;
+    padding-top: 4px;
+  }
+  .rule-title {
+    font-weight: 700;
+    font-size: 16.5px;
+    line-height: 1.6;
+  }
+  .rule-why {
+    grid-column: 2;
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+  .rule-why b { color: var(--tone); font-weight: 700; }
+
+  .tier.stop  { --tone: var(--stop);  --tint: var(--stop-soft); }
+  .tier.think { --tone: var(--think); --tint: var(--think-soft); }
+  .tier.go    { --tone: var(--go);    --tint: var(--go-soft); }
+
+  /* ---- 三步 ---- */
+  .steps {
+    background: var(--brand-soft);
+    border: 1.5px solid var(--brand);
+    border-radius: 10px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .steps h2 {
+    font-family: var(--f-display);
+    font-weight: 900;
+    font-size: 21px;
+    line-height: 1.5;
+    margin: 0;
+    color: var(--brand);
+  }
+  .step-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .step {
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .step-no {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    color: var(--brand);
+  }
+  .step-name { font-family: var(--f-display); font-weight: 900; font-size: 23px; line-height: 1.4; }
+  .step-do { font-size: 13.5px; color: var(--ink-soft); line-height: 1.75; }
+  .steps-tail {
+    margin: 0;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--brand);
+  }
+
+  /* ---- 約定 ---- */
+  .pact {
+    background: var(--surface);
+    border: 1.5px solid var(--rule);
+    border-radius: 10px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .pact h2 {
+    font-family: var(--f-display);
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 24px;
+  }
+  .field { display: flex; align-items: baseline; gap: 8px; font-size: 14.5px; }
+  .field span { color: var(--ink-soft); white-space: nowrap; }
+  .field i {
+    flex: 1;
+    min-width: 50px;
+    border-bottom: 1.5px dotted var(--ink-faint);
+    height: 1.35em;
+  }
+
+  footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--rule);
+    padding-top: 12px;
+  }
+  footer code {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 540px) {
+    .step-row { grid-template-columns: 1fr; }
+    .fields { grid-template-columns: 1fr; }
+    .tier-note { margin-left: 0; width: 100%; }
+    .rule { grid-template-columns: 30px 1fr; padding: 13px 14px; }
+    .tier-head { padding: 11px 14px; }
+  }
+
+  @media print {
+    :root { --paper: #FFFFFF; --surface: #FFFFFF; }
+    body { background: #fff; font-size: 12.5px; line-height: 1.7; }
+    .sheet { padding-block: 0; max-width: none; gap: 13px; }
+    .no-print { display: none !important; }
+    h1 { font-size: 29px; }
+    .rule { padding: 9px 14px; }
+    .rule-title { font-size: 14px; }
+    .rule-why { font-size: 12px; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { margin: 12mm; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="sheet">
+  <div class="studs" aria-hidden="true"></div>
+
+  <header>
+    <div>
+      <p class="eyebrow">列印出來 · 貼在電腦旁邊</p>
+      <h1>玩 Roblox 之前，先看這 11 條</h1>
+      <p class="lede">遊戲裡大部分人都是來玩的，但總有幾個不是。記住下面這些，你就比 99% 的玩家更難被騙。</p>
+    </div>
+    <button class="printbtn no-print" type="button" onclick="window.print()">列印這張 ⌘/Ctrl + P</button>
+  </header>
+
+  <section class="tier stop">
+    <div class="tier-head">
+      <span class="tier-mark" aria-hidden="true"></span>
+      <span class="tier-name">絕對不可以</span>
+      <span class="tier-note">這 4 條沒有例外，一次都不行</span>
+    </div>
+
+    <div class="rule">
+      <div class="rule-no">01</div>
+      <div class="rule-title">密碼只有你自己知道</div>
+      <p class="rule-why">有人說他是 Roblox 工作人員、要幫你解鎖帳號？<b>官方永遠不會問你的密碼。</b>問了就是騙子。</p>
+    </div>
+
+    <div class="rule">
+      <div class="rule-no">02</div>
+      <div class="rule-title">「免費 Robux」全是假的</div>
+      <p class="rule-why">網站、影片說明欄、私訊裡的領取連結，<b>100% 是釣魚</b>。你輸進去的帳號密碼，下一秒就歸別人了。</p>
+    </div>
+
+    <div class="rule">
+      <div class="rule-no">03</div>
+      <div class="rule-title">不說真實姓名、學校、住址、電話</div>
+      <p class="rule-why">也不要傳自己的照片。遊戲裡的朋友只需要知道你的<b>遊戲名稱</b>，別的一概不需要。</p>
+    </div>
+
+    <div class="rule">
+      <div class="rule-no">04</div>
+      <div class="rule-title">不跟陌生人換到別的軟體聊</div>
+      <p class="rule-why">「加我 Discord / LINE / 來語音」——離開 Roblox 就沒有聊天過濾了，這正是對方想要的。<b>直接拒絕。</b></p>
+    </div>
+  </section>
+
+  <section class="tier think">
+    <div class="tier-head">
+      <span class="tier-mark" aria-hidden="true"></span>
+      <span class="tier-name">先停一下，想想</span>
+      <span class="tier-note">遇到這些，別急著點下一步</span>
+    </div>
+
+    <div class="rule">
+      <div class="rule-no">05</div>
+      <div class="rule-title">「你先給我，我一定還你」</div>
+      <p class="rule-why">這是寵物、道具交易裡最老的一句騙人話。<b>東西一旦送出去就回不來了</b>，不管對方發多少誓。</p>
+    </div>
+
+    <div class="rule">
+      <div class="rule-no">06</div>
+      <div class="rule-title">白送的禮物，後面常常有條件</div>
+      <p class="rule-why">先給你好處，再叫你「借一下帳號」或者點個連結。<b>天上不會掉稀有寵物。</b></p>
+    </div>
+
+    <div class="rule">
+      <div class="rule-no">07</div>
+      <div class="rule-title">花錢之前，離開椅子去問大人</div>
+      <p class="rule-why">任何要儲值 Robux 的按鈕都不急在這一分鐘。<b>限時優惠就是要讓你來不及想。</b></p>
+    </div>
+
+    <div class="rule">
+      <div class="rule-no">08</div>
+      <div class="rule-title">有人催你、嚇你，那就是不對勁</div>
+      <p class="rule-why">「再不給就封你帳號」「你不做就不是我朋友」——<b>真朋友不會逼你馬上決定。</b></p>
+    </div>
+  </section>
+
+  <section class="tier go">
+    <div class="tier-head">
+      <span class="tier-mark" aria-hidden="true"></span>
+      <span class="tier-name">記得這樣做</span>
+      <span class="tier-note">今天就能做完的 3 件事</span>
+    </div>
+
+    <div class="rule">
+      <div class="rule-no">09</div>
+      <div class="rule-title">打開兩步驟驗證</div>
+      <p class="rule-why">設定 → 安全性 → 兩步驟驗證。開了之後，<b>別人就算知道你的密碼也登不進來。</b></p>
+    </div>
+
+    <div class="rule">
+      <div class="rule-no">10</div>
+      <div class="rule-title">檢舉 + 封鎖，不用跟他吵</div>
+      <p class="rule-why">點玩家名字就有檢舉按鈕。<b>檢舉完直接走，不回嘴</b>——吵贏了也沒有獎勵。</p>
+    </div>
+
+    <div class="rule">
+      <div class="rule-no">11</div>
+      <div class="rule-title">不舒服就退出，隨時可以</div>
+      <p class="rule-why">退出一局遊戲不丟臉，隊友也不會記得你。<b>你的感覺比任何一局遊戲重要。</b></p>
+    </div>
+  </section>
+
+  <section class="steps">
+    <h2>真的出事了？三步</h2>
+    <div class="step-row">
+      <div class="step">
+        <div class="step-no">STEP 1</div>
+        <div class="step-name">停</div>
+        <div class="step-do">立刻退出那個遊戲，不要再回訊息。</div>
+      </div>
+      <div class="step">
+        <div class="step-no">STEP 2</div>
+        <div class="step-name">存</div>
+        <div class="step-do">截圖留證據。Windows 按 Win + Shift + S，Mac 按 Shift + ⌘ + 4。</div>
+      </div>
+      <div class="step">
+        <div class="step-no">STEP 3</div>
+        <div class="step-name">說</div>
+        <div class="step-do">去找家裡的大人，把截圖給他們看。</div>
+      </div>
+    </div>
+    <p class="steps-tail">就算是你自己點錯了、被騙了——說出來也不會挨罵。瞞著才會越變越糟。</p>
+  </section>
+
+  <section class="pact">
+    <h2>我們的約定</h2>
+    <div class="fields">
+      <div class="field"><span>每天可以玩</span><i></i><span>分鐘</span></div>
+      <div class="field"><span>每月最多花</span><i></i><span>元</span></div>
+      <div class="field"><span>家長電話</span><i></i></div>
+      <div class="field"><span>我的遊戲名稱</span><i></i></div>
+      <div class="field"><span>我簽名</span><i></i></div>
+      <div class="field"><span>日期</span><i></i></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>檢舉方式：點玩家名字 → Report</span>
+    <span>安全設定：<code>設定 → 家長控制 / 隱私</code></span>
+    <span>官方協助：<code>roblox.com/help</code></span>
+  </footer>
+</div>

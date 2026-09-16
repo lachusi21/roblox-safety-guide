@@ -1,0 +1,829 @@
+<title>玩 Roblox 這件事</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap">
+<style>
+  :root {
+    --paper:      #F1F4F9;
+    --surface:    #FFFFFF;
+    --surface-2:  #F7F9FC;
+    --ink:        #181C27;
+    --ink-soft:   #576073;
+    --ink-faint:  #8C94A6;
+    --rule:       #DDE2EB;
+    --brand:      #3B3FBF;
+    --brand-soft: #E9EAFA;
+    --stop:       #C93326;
+    --stop-soft:  #FCEEEC;
+    --think:      #B87708;
+    --think-soft: #FCF3E1;
+    --go:         #16794B;
+    --go-soft:    #E6F3EC;
+    --shadow:     0 1px 2px rgba(24,28,39,.05), 0 6px 20px rgba(24,28,39,.05);
+
+    --f-display: "Noto Serif TC", "PingFang TC", "Microsoft JhengHei", serif;
+    --f-body:    "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+    --f-mono:    "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #0F1118;
+      --surface:    #191C25;
+      --surface-2:  #14171F;
+      --ink:        #ECEFF6;
+      --ink-soft:   #A0A8BB;
+      --ink-faint:  #767E92;
+      --rule:       #2B303C;
+      --brand:      #8D90FF;
+      --brand-soft: #1C1E33;
+      --stop:       #FF7466;
+      --stop-soft:  #2B1917;
+      --think:      #F2B33C;
+      --think-soft: #2A2011;
+      --go:         #4ACF8C;
+      --go-soft:    #12261C;
+      --shadow:     0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.28);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:      #0F1118;
+    --surface:    #191C25;
+    --surface-2:  #14171F;
+    --ink:        #ECEFF6;
+    --ink-soft:   #A0A8BB;
+    --ink-faint:  #767E92;
+    --rule:       #2B303C;
+    --brand:      #8D90FF;
+    --brand-soft: #1C1E33;
+    --stop:       #FF7466;
+    --stop-soft:  #2B1917;
+    --think:      #F2B33C;
+    --think-soft: #2A2011;
+    --go:         #4ACF8C;
+    --go-soft:    #12261C;
+    --shadow:     0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.28);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 15.5px;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 整頁只有一個欄寬：正文、卡片、方框全部靠這一條對齊，
+     內容區約 580px ≈ 一行 37 個中文字 */
+  .wrap {
+    max-width: 620px;
+    margin: 0 auto;
+    padding-inline: 20px;
+  }
+
+  .studs {
+    height: 14px;
+    background-image: radial-gradient(circle at 7px 7px, var(--brand) 3.2px, transparent 3.6px);
+    background-size: 20px 14px;
+    background-repeat: repeat-x;
+    opacity: .5;
+  }
+
+  /* ============ 導覽列 ============ */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 9px 20px;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  nav a {
+    flex: none;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 6px 11px;
+    border-radius: 7px;
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  nav a em {
+    font-family: var(--f-mono);
+    font-style: normal;
+    font-size: 11px;
+    color: var(--ink-faint);
+  }
+  nav a:hover { background: var(--brand-soft); color: var(--brand); }
+  nav a:hover em { color: var(--brand); }
+  nav a:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+  /* ============ 開頭 ============ */
+  .hero { padding-block: 40px 30px; }
+  .hero .from {
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin: 0 0 12px;
+  }
+  .hero h1 {
+    font-family: var(--f-display);
+    font-weight: 900;
+    font-size: clamp(34px, 7.5vw, 54px);
+    line-height: 1.24;
+    letter-spacing: .01em;
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+  .hero p {
+    margin: 0;
+    font-size: 16px;
+    color: var(--ink-soft);
+  }
+  .hero p + p { margin-top: 12px; }
+  .hero strong { color: var(--ink); }
+
+  /* ============ 區塊 ============ */
+  section { scroll-margin-top: 62px; padding-block: 32px; }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding-top: 22px;
+    border-top: 2px solid var(--ink);
+  }
+  .sec-no {
+    font-family: var(--f-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brand);
+  }
+  .sec-head h2 {
+    font-family: var(--f-display);
+    font-weight: 900;
+    font-size: clamp(25px, 4.6vw, 32px);
+    margin: 0;
+    letter-spacing: .01em;
+    line-height: 1.35;
+  }
+  .sec-lede { margin: 0 0 24px; color: var(--ink-soft); }
+  h3 {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: .01em;
+    line-height: 1.5;
+    margin: 32px 0 12px;
+  }
+  h3:first-of-type { margin-top: 0; }
+  p { margin: 0 0 14px; }
+
+  /* ============ 基本資料 ============ */
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 22px 0 28px;
+  }
+  .fact { background: var(--surface); padding: 14px 16px; }
+  .fact dt {
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: .04em;
+    line-height: 1.6;
+    margin-bottom: 2px;
+  }
+  .fact dd {
+    margin: 0;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .callout {
+    background: var(--brand-soft);
+    border-left: 4px solid var(--brand);
+    border-radius: 0 9px 9px 0;
+    padding: 15px 20px;
+    margin: 22px 0;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout b { color: var(--brand); }
+
+  /* ============ 遊戲卡 ============ */
+  .group-label {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 9px;
+    margin: 32px 0 14px;
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--tone, var(--ink));
+  }
+  .group-label::before {
+    content: "";
+    width: 12px; height: 12px;
+    border-radius: 3px;
+    background: var(--tone, var(--brand));
+    flex: none;
+  }
+  .group-label span {
+    font-family: var(--f-body);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink-faint);
+  }
+
+  .games {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .game {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 14px 17px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 3px 9px;
+    box-shadow: var(--shadow);
+  }
+  .game .tag {
+    order: 0;
+    flex: none;
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1.7;
+    padding: 1px 8px;
+    border-radius: 5px;
+    color: var(--tone, var(--brand));
+    background: color-mix(in srgb, var(--tone, var(--brand)) 13%, transparent);
+  }
+  .game .name {
+    order: 1;
+    flex: 1 1 auto;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .game .why {
+    order: 2;
+    flex: 1 0 100%;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.8;
+  }
+  .game .warn {
+    order: 3;
+    flex: 1 0 100%;
+    font-size: 13.5px;
+    color: var(--think);
+    font-weight: 700;
+    line-height: 1.75;
+    margin-top: 2px;
+  }
+
+  .avoid {
+    background: var(--stop-soft);
+    border: 1px solid var(--stop);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-top: 14px;
+  }
+  .avoid ul { margin: 0; padding-left: 20px; }
+  .avoid li { margin-bottom: 10px; }
+  .avoid li:last-child { margin-bottom: 0; }
+  .avoid li b { color: var(--stop); }
+
+  /* ============ 新聞 ============ */
+  .news { display: flex; flex-direction: column; }
+  .item {
+    padding: 22px 0 22px 20px;
+    border-left: 3px solid var(--tone);
+    border-bottom: 1px solid var(--rule);
+  }
+  .item:last-child { border-bottom: none; }
+  .item h4 {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 19px;
+    margin: 0 0 6px;
+    line-height: 1.55;
+  }
+  .item .when {
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    color: var(--tone);
+    margin-bottom: 8px;
+  }
+  .item p { margin: 0 0 12px; color: var(--ink-soft); font-size: 14.5px; }
+  .item .you {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 13px 16px;
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+  .item .you b { color: var(--tone); }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-top: 12px;
+    font-size: 12.5px;
+  }
+  .links a { color: var(--ink-faint); text-decoration: underline; text-underline-offset: 3px; }
+  .links a:hover { color: var(--brand); }
+  .links a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+  /* ============ 須知 ============ */
+  .tier {
+    background: var(--surface);
+    border: 1.5px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+  .tier-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px 12px;
+    padding: 12px 18px;
+    background: var(--tint);
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .tier-mark { width: 13px; height: 13px; border-radius: 3px; background: var(--tone); flex: none; }
+  .tier-name {
+    font-family: var(--f-display);
+    font-weight: 900;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--tone);
+  }
+  .tier-note { font-size: 13px; color: var(--ink-soft); margin-left: auto; }
+
+  .rule {
+    display: grid;
+    grid-template-columns: 26px 34px 1fr;
+    gap: 2px 10px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--rule);
+    align-items: start;
+  }
+  .rule:first-of-type { border-top: none; }
+  .rule input[type="checkbox"] {
+    width: 19px; height: 19px;
+    margin: 6px 0 0;
+    accent-color: var(--tone);
+    cursor: pointer;
+  }
+  .rule input:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+  .rule-no {
+    font-family: var(--f-mono);
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--tone);
+    font-variant-numeric: tabular-nums;
+    padding-top: 5px;
+  }
+  .rule label { font-weight: 700; font-size: 16px; line-height: 1.6; cursor: pointer; }
+  .rule .why { grid-column: 3; color: var(--ink-soft); font-size: 14px; margin: 0; }
+  .rule .why b { color: var(--tone); }
+  .rule.done label { opacity: .5; text-decoration: line-through; text-decoration-thickness: 2px; }
+  .rule.done .why { opacity: .5; }
+
+  .tier.stop  { --tone: var(--stop);  --tint: var(--stop-soft); }
+  .tier.think { --tone: var(--think); --tint: var(--think-soft); }
+  .tier.go    { --tone: var(--go);    --tint: var(--go-soft); }
+
+  .progress {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    background: var(--surface-2);
+    border: 1px dashed var(--brand);
+    border-radius: 9px;
+    padding: 13px 18px;
+    margin-bottom: 18px;
+    font-size: 14.5px;
+  }
+  .progress .count {
+    font-family: var(--f-mono);
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--brand);
+    font-variant-numeric: tabular-nums;
+  }
+  .progress .bar {
+    flex: 1;
+    min-width: 70px;
+    height: 7px;
+    border-radius: 4px;
+    background: var(--rule);
+    overflow: hidden;
+  }
+  .progress .bar i {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--brand);
+    transition: width .25s ease;
+  }
+
+  /* ============ 三步 ============ */
+  .steps {
+    background: var(--brand-soft);
+    border: 1.5px solid var(--brand);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 24px;
+  }
+  .steps h3 { margin: 0; color: var(--brand); font-size: 21px; font-weight: 900; }
+  .step-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .step { background: var(--surface); border-radius: 8px; padding: 15px 17px; display: flex; flex-direction: column; gap: 3px; }
+  .step-no { font-family: var(--f-mono); font-size: 11px; font-weight: 600; letter-spacing: .16em; color: var(--brand); }
+  .step-name { font-family: var(--f-display); font-weight: 900; font-size: 24px; line-height: 1.4; }
+  .step-do { font-size: 13.5px; color: var(--ink-soft); line-height: 1.8; }
+  .steps-tail { margin: 0; font-size: 15px; font-weight: 700; color: var(--brand); }
+
+  /* ============ 結尾 ============ */
+  .outro {
+    background: var(--surface);
+    border: 1.5px solid var(--rule);
+    border-radius: 10px;
+    padding: 26px;
+    margin: 34px 0 20px;
+    box-shadow: var(--shadow);
+  }
+  .outro h3 { margin-top: 0; }
+  .outro p:last-child { margin-bottom: 0; }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding-block: 18px 44px;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+  }
+  footer a { color: var(--ink-faint); }
+
+  @media (max-width: 560px) {
+    body { font-size: 15px; }
+    .facts { grid-template-columns: 1fr; }
+    .step-row { grid-template-columns: 1fr; }
+    .tier-note { margin-left: 0; width: 100%; }
+    .rule { grid-template-columns: 24px 28px 1fr; padding: 13px 14px; }
+    .tier-head { padding: 11px 14px; }
+    .item { padding-left: 15px; }
+    .callout { padding: 14px 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#what"><em>01</em>這是什麼</a>
+    <a href="#play"><em>02</em>玩什麼好</a>
+    <a href="#news"><em>03</em>要知道的事</a>
+    <a href="#rules"><em>04</em>安全須知</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="studs" aria-hidden="true" style="margin-bottom:18px"></div>
+    <p class="from">給 15 歲以下的玩家</p>
+    <h1>玩 Roblox 這件事</h1>
+    <p>這一頁不是要勸你別玩。這裡整理了關於 Roblox 的全部——<strong>好的部分，和不好的部分，都寫在這裡。</strong></p>
+    <p>讀完你會比班上大部分同學更懂這個遊戲。最後一部分是安全須知，讀完再開始玩。</p>
+  </header>
+
+  <!-- ===================== 01 ===================== -->
+  <section id="what">
+    <div class="sec-head"><span class="sec-no">01</span><h2>這到底是什麼</h2></div>
+    <p class="sec-lede">第一件要搞清楚的事：Roblox 不是一個遊戲。</p>
+
+    <div class="body-col">
+      <p>你下載的那個 Roblox，其實是<strong>一個裝滿遊戲的商店</strong>。裡面幾千萬個遊戲，幾乎<strong>全部是玩家自己做的</strong>——有些是大人做的，有些是跟你差不多大的孩子做的。</p>
+      <p>所以「Roblox 好不好玩」這個問題沒有答案，就像問「YouTube 好不好看」一樣。<strong>取決於你點進去的是哪一個。</strong></p>
+    </div>
+
+    <dl class="facts">
+      <div class="fact"><dt>出生年份</dt><dd>2006 年</dd></div>
+      <div class="fact"><dt>每天多少人在玩</dt><dd>8000 萬+</dd></div>
+      <div class="fact"><dt>遊戲裡的錢</dt><dd>Robux</dd></div>
+      <div class="fact"><dt>做遊戲用的語言</dt><dd>Luau</dd></div>
+    </dl>
+
+    <h3>它靠什麼賺錢（這個一定要懂）</h3>
+    <div class="body-col">
+      <p>Roblox 本身免費，它賺的是 <strong>Robux</strong> 的錢——你用真的錢換 Robux，再用 Robux 買造型、道具、開箱子。</p>
+      <p>因為這樣，平台上很多遊戲被設計成<strong>讓你想花錢</strong>：限時特價、每日簽到、抽獎箱子、「再抽一次就出了」。這些不是巧合，是專門設計出來的。</p>
+    </div>
+
+    <div class="callout">
+      <p><b>知道套路，就不容易被套路。</b>下次你看到「限時 5 分鐘半價」的時候，想一想：為什麼偏偏是 5 分鐘？<strong>因為他們不想讓你有時間去問大人。</strong></p>
+    </div>
+
+    <h3>它最厲害的地方</h3>
+    <div class="body-col">
+      <p>Roblox 免費給了一個叫 <strong>Roblox Studio</strong> 的工具，任何人都能用它做遊戲，做完發布，全世界都能玩。很多現在的程式設計師，第一行程式碼就是在這裡寫的。</p>
+      <p>這是 Roblox 真正有價值的部分——<strong>它不只是讓你玩，它讓你能做。</strong>哪天想試試，找家裡的大人一起做第一個。</p>
+    </div>
+  </section>
+
+  <!-- ===================== 02 ===================== -->
+  <section id="play">
+    <div class="sec-head"><span class="sec-no">02</span><h2>玩什麼好</h2></div>
+    <p class="sec-lede">這些是按「做得用心 + 玩著有意思 + 不容易出事」挑的。排行榜上最紅的那幾個，不一定是最好的——很多只是最會吸引人點進去。</p>
+
+    <div class="group-label" style="--tone: var(--go)">先試這幾個<span>做得最紮實的</span></div>
+    <div class="games" style="--tone: var(--go)">
+      <div class="game"><div class="tag">建造經營</div><div class="name">Theme Park Tycoon 2</div><div class="why">自己蓋主題樂園、設計雲霄飛車軌道。想蓋什麼蓋什麼，越玩越有成就感。</div></div>
+      <div class="game"><div class="tag">養成收集</div><div class="name">Bee Swarm Simulator</div><div class="why">養蜜蜂、採蜜、探索地圖。做得非常用心，不用跟人搶，自己慢慢來。</div></div>
+      <div class="game"><div class="tag">派對小遊戲</div><div class="name">Epic Minigames</div><div class="why">幾十種小遊戲輪著來，一局幾分鐘。跟同學一起玩最合適。</div></div>
+      <div class="game"><div class="tag">合作闖關</div><div class="name">Flood Escape 2</div><div class="why">水位一直漲，要一邊跑一邊解謎。關卡設計很聰明，需要動腦筋。</div></div>
+      <div class="game"><div class="tag">物理建造</div><div class="name">Build A Boat for Treasure</div><div class="why">自己造船去闖關，船散了就重來。創意越好走得越遠。</div></div>
+      <div class="game"><div class="tag">策略塔防</div><div class="name">Tower Defense Simulator</div><div class="why">擺防禦塔擋住怪物。考驗你怎麼分配有限的資源。</div></div>
+    </div>
+
+    <div class="group-label" style="--tone: var(--brand)">隨便玩玩<span>不費腦子，放鬆用</span></div>
+    <div class="games" style="--tone: var(--brand)">
+      <div class="game"><div class="tag">跳跳樂</div><div class="name">Tower of Hell</div><div class="why">純跑酷闖關，練手速和耐心。掉下去了不要摔鍵盤。</div></div>
+      <div class="game"><div class="tag">跑酷</div><div class="name">Speed Run 4</div><div class="why">經典的計時跑圖，越跑越順，會上癮的那種順。</div></div>
+      <div class="game"><div class="tag">休閒</div><div class="name">Super Golf!</div><div class="why">打高爾夫，物理效果很好笑，跟朋友一起玩會笑出聲。</div></div>
+      <div class="game"><div class="tag">生存</div><div class="name">Natural Disaster Survival</div><div class="why">地震、海嘯、龍捲風輪流來，你只要活下來。十幾年的老遊戲了，依然好玩。</div></div>
+      <div class="game"><div class="tag">合作經營</div><div class="name">Work at a Pizza Place</div><div class="why">一群人開披薩店，各做各的工作。節奏很慢，適合邊玩邊聊。</div></div>
+    </div>
+
+    <div class="group-label" style="--tone: var(--brand)">開車和音樂</div>
+    <div class="games" style="--tone: var(--brand)">
+      <div class="game"><div class="tag">競速</div><div class="name">Vehicle Legends</div><div class="why">收集車、改車、比賽。車子模型做得很好看。</div></div>
+      <div class="game"><div class="tag">駕駛模擬</div><div class="name">Ultimate Driving</div><div class="why">要遵守交通規則的開車遊戲，有點像提前學開車。</div></div>
+      <div class="game"><div class="tag">開放世界</div><div class="name">Jailbreak</div><div class="why">警察抓小偷，開車追逐。地圖很大，做了快十年了。</div></div>
+      <div class="game"><div class="tag">音樂節奏</div><div class="name">Funky Friday</div><div class="why">跟著節奏按鍵對戰，反應越快分數越高。</div></div>
+    </div>
+
+    <div class="group-label" style="--tone: var(--think)">可以玩，但要留個心眼</div>
+    <div class="games" style="--tone: var(--think)">
+      <div class="game">
+        <div class="tag">養寵物</div><div class="name">Adopt Me!</div>
+        <div class="why">養寵物、佈置房子，畫風很可愛，很多人玩。</div>
+        <div class="warn">⚠ 這個遊戲是騙寵物的重災區。別人說「你先給我」——一律不給。</div>
+      </div>
+      <div class="game">
+        <div class="tag">角色扮演</div><div class="name">Brookhaven RP</div>
+        <div class="why">在一個小鎮裡自由活動，想做什麼做什麼。</div>
+        <div class="warn">⚠ 遊戲本身沒問題，但裡面遇到什麼人全看運氣。盡量只跟認識的朋友一起進。</div>
+      </div>
+    </div>
+
+    <div class="group-label" style="--tone: var(--stop)">這幾類先別碰</div>
+    <div class="avoid">
+      <ul>
+        <li><b>各種開箱、抽獎、「Steal a XXX」類</b>——核心玩法就是賭，贏一次給你的快樂是設計出來騙你繼續的。</li>
+        <li><b>恐怖遊戲</b>（DOORS、Pressure、The Mimic 這些）——做得是好，但嚇人的程度不適合你現在的年紀。<strong>等大一點，找人陪你一起玩。</strong></li>
+        <li><b>幫派、街頭對戰類</b>（Da Hood、Criminality 等）——玩法不是問題，裡面的人講話很難聽，去了只會心情不好。</li>
+        <li><b>任何要你加 Discord / LINE / 語音的遊戲或人</b>——這個沒有例外，往下翻第 04 部分。</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <p><b>教你一招挑遊戲：</b>看遊戲頁面上<strong>按讚和倒讚的比例</strong>，超過 90% 讚的一般不會差。別看「多少人玩過」——那個數字只說明它很會打廣告。</p>
+    </div>
+  </section>
+
+  <!-- ===================== 03 ===================== -->
+  <section id="news">
+    <div class="sec-head"><span class="sec-no">03</span><h2>要知道的事</h2></div>
+    <p class="sec-lede">這部分不是為了嚇你。你已經夠大了，可以知道真實的情況——而不是只聽到一句「不准玩」。下面每一條都是真事，連結可以自己點開看，也可以找大人一起看。</p>
+
+    <div class="news">
+
+      <div class="item" style="--tone: var(--stop)">
+        <div class="when">2024 – 2026 · 仍在進行</div>
+        <h4>有成年人假裝成小孩，在裡面接近兒童</h4>
+        <p>這是 Roblox 現在最大的麻煩。美國有 <strong>170 多起訴訟</strong>被合併在一起審理，好幾個州的檢察長告了這家公司，有幾個州已經和解，並要求它加強保護措施。指控的核心是：平台沒有做足夠的事，來阻止壞人接近小孩。</p>
+        <p>嚴重到什麼程度？<strong>土耳其、卡達、伊拉克直接把 Roblox 封了</strong>，科威特封了之後又放開，條件是——<strong>當地必須關掉遊戲裡的聊天功能。</strong></p>
+        <div class="you"><b>這跟你有什麼關係：</b>你現在的帳號聊天是關掉的。你可能覺得不方便，但你看，<strong>一個國家和你的家長，得出了同一個結論。</strong>這不是小題大作。</div>
+        <div class="links">
+          <a href="https://en.wikipedia.org/wiki/Child_safety_on_Roblox" target="_blank" rel="noopener">維基百科：Roblox 兒童安全</a>
+          <a href="https://www.thenationalnews.com/lifestyle/2025/08/27/is-roblox-safe-as-gulf-countries-ban-platform/" target="_blank" rel="noopener">多國封鎖報導</a>
+          <a href="https://www.consumernotice.org/legal/roblox-lawsuit/" target="_blank" rel="noopener">訴訟進度彙整</a>
+        </div>
+      </div>
+
+      <div class="item" style="--tone: var(--think)">
+        <div class="when">2023 – 至今</div>
+        <h4>有網站專門騙小孩用 Robux 賭博</h4>
+        <p>有一堆站外網站（RBXFlip、Bloxflip 這類），讓人<strong>拿 Robux 當籌碼賭博</strong>，玩家裡有大量小孩。現在有集體訴訟說 Roblox 從中獲利，因為它在兌換環節抽 30% 的手續費。Roblox 否認，說這些網站跟它無關、違反了規定。</p>
+        <p>官司還在打。但不管誰對誰錯，<strong>事實是很多孩子的 Robux 就是這樣沒的。</strong></p>
+        <div class="you"><b>這跟你有什麼關係：</b>只要有人跟你說「穩賺」「翻倍」「先儲一點試試」——<strong>不管他是誰，不管在哪個遊戲裡，那都是騙局。</strong>賭博這件事上，沒有小孩會贏。</div>
+        <div class="links">
+          <a href="https://www.courthousenews.com/roblox-dodges-lawsuit-claims-over-in-game-currency-gambling/" target="_blank" rel="noopener">Courthouse News 法庭報導</a>
+          <a href="https://www.classaction.org/news/class-action-claims-roblox-casino-websites-operate-illegal-gambling-ring-targeted-at-children" target="_blank" rel="noopener">集體訴訟說明</a>
+        </div>
+      </div>
+
+      <div class="item" style="--tone: var(--think)">
+        <div class="when">2021 – 2022</div>
+        <h4>「做 Roblox 遊戲能發大財」，被誇大了</h4>
+        <p>英國一個調查團隊 <strong>People Make Games</strong> 做了兩集節目，說 Roblox 一直在向青少年宣傳「做遊戲就能致富」，但實際上分潤很少、提領門檻很高，真正賺到錢的是極少數。結果是一堆十幾歲的孩子幫人免費打工，做夢做到最後什麼也沒有。</p>
+        <p>Roblox 當時要求他們刪掉影片。他們沒刪，還做了更長的第二集。</p>
+        <div class="you"><b>這跟你有什麼關係：</b>去學做遊戲很好——但<strong>目標是「學會做東西」，不是「賺錢」。</strong>如果有人找你「一起做遊戲、以後分錢」，先跟家裡的大人說。</div>
+        <div class="links">
+          <a href="https://www.youtube.com/watch?v=_gXlauRB1EQ" target="_blank" rel="noopener">調查影片原片</a>
+          <a href="https://www.washingtonpost.com/video-games/2022/06/07/people-make-games-roblox-indie-devs/" target="_blank" rel="noopener">華盛頓郵報報導</a>
+        </div>
+      </div>
+
+      <div class="item" style="--tone: var(--think)">
+        <div class="when">2024 年 10 月</div>
+        <h4>有機構說它連人數都在造假</h4>
+        <p>一家叫 Hindenburg 的調查機構發報告說，Roblox 公布的「每天多少人在玩」<strong>可能虛報了 25%–42%</strong>，裡面混了大量機器人帳號和一個人開的好幾個分身。報告發出當天股價就跌了。</p>
+        <p><strong>注意一點：</strong>這家機構本身就是靠「股價下跌」賺錢的，所以它有動機把話說得很難聽。不能全信，但也不能不當一回事。</p>
+        <div class="you"><b>這跟你有什麼關係：</b>這條其實跟你關係不大，寫出來是想讓你學會一件事——<strong>看到任何說法，先問一句「說這話的人能得到什麼好處」。</strong>這個習慣，比記住任何一條規則都有用。</div>
+        <div class="links">
+          <a href="https://hindenburgresearch.com/roblox/" target="_blank" rel="noopener">報告原文</a>
+          <a href="https://kotaku.com/roblox-hindenburg-report-pedophile-hellscape-for-kids-1851668649" target="_blank" rel="noopener">Kotaku 報導</a>
+        </div>
+      </div>
+
+      <div class="item" style="--tone: var(--go)">
+        <div class="when">2025 年 11 月起 · 好消息</div>
+        <h4>它自己也在改，而且改得挺狠</h4>
+        <p>被告、被封、被罵之後，Roblox 做了一件全業界第一家做的事：<strong>從 2025 年底開始分批推行、2026 年 1 月全球強制——想用聊天功能，就必須先用鏡頭做「人臉年齡檢查」。</strong></p>
+        <p>系統會把人分成 6 個年齡層，然後<strong>限制成年人和未成年人之間的聊天</strong>，除非是現實裡認識的人。官方說照片處理完就刪掉。</p>
+        <div class="you"><b>這跟你有什麼關係：</b>說明這些問題是真的，連公司自己都承認了。也說明——<strong>事情在變好。</strong>聊天功能不會永遠關著，等你再大一點、等這些措施穩定了，可以再跟家裡討論。</div>
+        <div class="links">
+          <a href="https://about.roblox.com/newsroom/2025/11/roblox-requires-age-checks-limits-minor-and-adult-chat" target="_blank" rel="noopener">Roblox 官方公告</a>
+          <a href="https://variety.com/2025/gaming/news/roblox-launches-required-facial-age-checks-1236584050/" target="_blank" rel="noopener">Variety 報導</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout">
+      <p><b>要記住的不是「Roblox 很危險」。</b>世界上任何有幾千萬人的地方——學校、賣場、網路——都會有極少數壞人。<strong>重點不是躲開所有地方，是知道壞人長什麼樣、會用什麼話術。</strong>這就是下一部分。</p>
+    </div>
+  </section>
+
+  <!-- ===================== 04 ===================== -->
+  <section id="rules">
+    <div class="sec-head"><span class="sec-no">04</span><h2>安全須知 11 條</h2></div>
+    <p class="sec-lede">這是整頁最重要的部分。看懂一條就勾一條，勾完之後找家裡的大人聊一次，聊完這一頁的事就算過了。</p>
+
+    <div class="progress">
+      <span class="count" id="count">0 / 11</span>
+      <span class="bar"><i id="bar"></i></span>
+      <span id="msg">讀懂一條，勾一條</span>
+    </div>
+
+    <div class="tier stop">
+      <div class="tier-head">
+        <span class="tier-mark" aria-hidden="true"></span>
+        <span class="tier-name">絕對不可以</span>
+        <span class="tier-note">這 4 條沒有例外，一次都不行</span>
+      </div>
+      <div class="rule"><input type="checkbox" id="r1"><div class="rule-no">01</div><label for="r1">密碼只有你自己知道</label><p class="why">有人說他是 Roblox 工作人員、要幫你解鎖帳號？<b>官方永遠不會問你的密碼。</b>問了就是騙子。</p></div>
+      <div class="rule"><input type="checkbox" id="r2"><div class="rule-no">02</div><label for="r2">「免費 Robux」全是假的</label><p class="why">網站、影片說明欄、私訊裡的領取連結，<b>100% 是釣魚</b>。你輸進去的帳號密碼，下一秒就歸別人了。</p></div>
+      <div class="rule"><input type="checkbox" id="r3"><div class="rule-no">03</div><label for="r3">不說真實姓名、學校、住址、電話</label><p class="why">也不要傳自己的照片。遊戲裡的朋友只需要知道你的<b>遊戲名稱</b>，別的一概不需要。</p></div>
+      <div class="rule"><input type="checkbox" id="r4"><div class="rule-no">04</div><label for="r4">不跟陌生人換到別的軟體聊</label><p class="why">「加我 Discord / LINE / 來語音」——離開 Roblox 就沒有聊天過濾了，這正是對方想要的。<b>直接拒絕。</b></p></div>
+    </div>
+
+    <div class="tier think">
+      <div class="tier-head">
+        <span class="tier-mark" aria-hidden="true"></span>
+        <span class="tier-name">先停一下，想想</span>
+        <span class="tier-note">遇到這些，別急著點下一步</span>
+      </div>
+      <div class="rule"><input type="checkbox" id="r5"><div class="rule-no">05</div><label for="r5">「你先給我，我一定還你」</label><p class="why">這是寵物、道具交易裡最老的一句騙人話。<b>東西一旦送出去就回不來了</b>，不管對方發多少誓。</p></div>
+      <div class="rule"><input type="checkbox" id="r6"><div class="rule-no">06</div><label for="r6">白送的禮物，後面常常有條件</label><p class="why">先給你好處，再叫你「借一下帳號」或者點個連結。<b>天上不會掉稀有寵物。</b></p></div>
+      <div class="rule"><input type="checkbox" id="r7"><div class="rule-no">07</div><label for="r7">花錢之前，離開椅子去問大人</label><p class="why">任何要儲值 Robux 的按鈕都不急在這一分鐘。<b>限時優惠就是要讓你來不及想。</b></p></div>
+      <div class="rule"><input type="checkbox" id="r8"><div class="rule-no">08</div><label for="r8">有人催你、嚇你，那就是不對勁</label><p class="why">「再不給就封你帳號」「你不做就不是我朋友」——<b>真朋友不會逼你馬上決定。</b></p></div>
+    </div>
+
+    <div class="tier go">
+      <div class="tier-head">
+        <span class="tier-mark" aria-hidden="true"></span>
+        <span class="tier-name">記得這樣做</span>
+        <span class="tier-note">今天就能做完的 3 件事</span>
+      </div>
+      <div class="rule"><input type="checkbox" id="r9"><div class="rule-no">09</div><label for="r9">打開兩步驟驗證</label><p class="why">設定 → 安全性 → 兩步驟驗證。開了之後，<b>別人就算知道你的密碼也登不進來。</b></p></div>
+      <div class="rule"><input type="checkbox" id="r10"><div class="rule-no">10</div><label for="r10">檢舉 + 封鎖，不用跟他吵</label><p class="why">點玩家名字就有檢舉按鈕。<b>檢舉完直接走，不回嘴</b>——吵贏了也沒有獎勵。</p></div>
+      <div class="rule"><input type="checkbox" id="r11"><div class="rule-no">11</div><label for="r11">不舒服就退出，隨時可以</label><p class="why">退出一局遊戲不丟臉，隊友也不會記得你。<b>你的感覺比任何一局遊戲重要。</b></p></div>
+    </div>
+
+    <div class="steps">
+      <h3>真的出事了？三步</h3>
+      <div class="step-row">
+        <div class="step"><div class="step-no">STEP 1</div><div class="step-name">停</div><div class="step-do">立刻退出那個遊戲，不要再回訊息。</div></div>
+        <div class="step"><div class="step-no">STEP 2</div><div class="step-name">存</div><div class="step-do">截圖留證據。Windows 按 Win + Shift + S。</div></div>
+        <div class="step"><div class="step-no">STEP 3</div><div class="step-name">說</div><div class="step-do">去找家裡的大人，把截圖給他們看。</div></div>
+      </div>
+      <p class="steps-tail">就算是你自己點錯了、被騙了——說出來也不會挨罵。瞞著才會越變越糟。</p>
+    </div>
+
+    <div class="outro">
+      <h3>最後</h3>
+      <p>把這些寫下來，不是因為不信任你。<strong>是因為騙人的那些人，專門練過怎麼騙小孩，而你還沒練過怎麼識破他們。</strong>這一頁就是讓你先練一遍。</p>
+      <p>還有一件事要再說一次：<strong>不管發生了什麼，先去找家裡的大人。</strong>哪怕是你自己點了不該點的、花了不該花的、說了不該說的。說出來，可以一起解決；自己扛著，才會真的出事。</p>
+      <p>然後——好好玩。這是個挺有意思的地方。 🎮</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>整理於 2026 年 9 月</span>
+    <span>有問題隨時問家裡的大人</span>
+    <span><a href="https://www.commonsensemedia.org/articles/parents-ultimate-guide-to-roblox" target="_blank" rel="noopener">家長參考：Common Sense Media</a></span>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('.rule input[type="checkbox"]'));
+    var count = document.getElementById('count');
+    var bar = document.getElementById('bar');
+    var msg = document.getElementById('msg');
+    var KEY = 'roblox-rules-read';
+
+    function load() {
+      try {
+        var saved = JSON.parse(localStorage.getItem(KEY) || '[]');
+        boxes.forEach(function (b) { if (saved.indexOf(b.id) !== -1) b.checked = true; });
+      } catch (e) { /* 隱私模式下讀不到，沒關係 */ }
+    }
+
+    function save() {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(
+          boxes.filter(function (b) { return b.checked; }).map(function (b) { return b.id; })
+        ));
+      } catch (e) { /* 存不了就算了，頁面照常能用 */ }
+    }
+
+    function render() {
+      var n = boxes.filter(function (b) { return b.checked; }).length;
+      boxes.forEach(function (b) { b.closest('.rule').classList.toggle('done', b.checked); });
+      count.textContent = n + ' / ' + boxes.length;
+      bar.style.width = (n / boxes.length * 100) + '%';
+      if (n === 0) msg.textContent = '讀懂一條，勾一條';
+      else if (n < boxes.length) msg.textContent = '還剩 ' + (boxes.length - n) + ' 條';
+      else msg.textContent = '全部讀完了，找大人聊聊 👍';
+    }
+
+    boxes.forEach(function (b) {
+      b.addEventListener('change', function () { save(); render(); });
+    });
+
+    load();
+    render();
+  })();
+</script>
