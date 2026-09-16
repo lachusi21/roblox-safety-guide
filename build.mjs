@@ -52,7 +52,9 @@ function faviconDataUri(emoji) {
 function siteSwitch(currentOut) {
   const links = [
     { href: './', label: '📖 完整指南', out: 'public/index.html' },
-    { href: './card.html', label: '🖨️ 列印版安全卡', out: 'public/card.html' },
+    // 用無副檔名的路徑：GitHub Pages 與 Cloudflare 都直接回 200，
+    // 寫成 card.html 的話 Cloudflare 會多一次 307 轉址
+    { href: './card', label: '🖨️ 列印版安全卡', out: 'public/card.html' },
   ];
   const items = links
     .map((l) => {
