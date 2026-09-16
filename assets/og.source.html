@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>OG image source</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600&family=Noto+Sans+TC:wght@400;700;900&family=Noto+Serif+TC:wght@900&display=swap">
+<style>
+  /* 這個檔案只是縮圖的來源，用瀏覽器截成 1200x630 的 PNG，不會被部署 */
+  :root {
+    --paper:  #F1F4F9;
+    --ink:    #181C27;
+    --soft:   #576073;
+    --rule:   #DDE2EB;
+    --brand:  #3B3FBF;
+    --stop:   #C93326;
+    --think:  #B87708;
+    --go:     #16794B;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background: var(--paper);
+    font-family: "Noto Sans TC", sans-serif;
+    color: var(--ink);
+    position: relative;
+  }
+
+  /* 底層的積木凸點紋理 */
+  .field {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 12px 12px, var(--brand) 3px, transparent 3.4px);
+    background-size: 34px 34px;
+    opacity: .07;
+  }
+
+  .stage {
+    position: relative;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    align-items: center;
+    padding: 0 72px;
+    gap: 40px;
+  }
+
+  /* ---- 左：文字 ---- */
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    color: var(--brand);
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: "Noto Serif TC", serif;
+    font-weight: 900;
+    font-size: 88px;
+    line-height: 1.18;
+    letter-spacing: .01em;
+    margin-bottom: 22px;
+  }
+  .sub {
+    font-size: 27px;
+    line-height: 1.65;
+    color: var(--soft);
+    max-width: 19em;
+    margin-bottom: 34px;
+  }
+  .chips { display: flex; gap: 12px; }
+  .chip {
+    display: flex; align-items: center; gap: 9px;
+    padding: 9px 18px 9px 14px;
+    border-radius: 9px;
+    font-size: 20px;
+    font-weight: 700;
+    background: #fff;
+    border: 2px solid var(--c);
+    color: var(--c);
+  }
+  .chip::before {
+    content: "";
+    width: 14px; height: 14px;
+    border-radius: 4px;
+    background: var(--c);
+  }
+
+  .url {
+    position: absolute;
+    left: 72px; bottom: 44px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 18px;
+    font-weight: 600;
+    color: #9AA2B4;
+    letter-spacing: .02em;
+  }
+
+  /* ---- 右：疊起來的積木 ---- */
+  .blocks {
+    position: relative;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .block {
+    position: relative;
+    width: 230px; height: 84px;
+    border-radius: 12px;
+    background: var(--c);
+    box-shadow: 0 10px 0 0 var(--edge), 0 22px 34px rgba(24,28,39,.16);
+    transform: rotate(var(--r));
+  }
+  /* 積木上的四個凸點 */
+  .block::before {
+    content: "";
+    position: absolute;
+    top: -13px; left: 26px; right: 26px; height: 26px;
+    background-image: radial-gradient(circle at 19px 13px, var(--c) 12px, transparent 12.5px);
+    background-size: 46px 26px;
+    background-repeat: repeat-x;
+  }
+  .block::after {
+    content: "";
+    position: absolute;
+    top: -13px; left: 26px; right: 26px; height: 13px;
+    background-image: radial-gradient(circle at 19px 13px, var(--edge) 12px, transparent 12.5px);
+    background-size: 46px 26px;
+    background-repeat: repeat-x;
+  }
+</style>
+</head>
+<body>
+  <div class="field"></div>
+
+  <div class="stage">
+    <div>
+      <div class="eyebrow">給 15 歲以下的玩家</div>
+      <h1>玩 Roblox<br>這件事</h1>
+      <p class="sub">一頁講完：玩什麼好、要小心什麼，<br>還有 11 條安全須知。</p>
+      <div class="chips">
+        <span class="chip" style="--c: var(--stop)">絕對不可以</span>
+        <span class="chip" style="--c: var(--think)">先停一下</span>
+        <span class="chip" style="--c: var(--go)">記得這樣做</span>
+      </div>
+    </div>
+
+    <div class="blocks">
+      <div class="block" style="--c: #C93326; --edge: #9E2317; --r: -3deg"></div>
+      <div class="block" style="--c: #B87708; --edge: #8F5A03; --r: 2.5deg"></div>
+      <div class="block" style="--c: #16794B; --edge: #0E5A37; --r: -1.5deg"></div>
+    </div>
+  </div>
+
+  <div class="url">roblox-safety-guide.y-rojets.workers.dev</div>
+</body>
+</html>

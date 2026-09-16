@@ -50,3 +50,17 @@ node build.mjs && npx serve public
 - 支援淺色與深色主題，跟著系統設定切換
 - 須知的勾選狀態存在瀏覽器 `localStorage`，不會上傳
 - 安全卡有獨立的列印樣式，直接 Ctrl/⌘ + P 就能印
+
+## 分享縮圖（OG image）
+
+`assets/og.source.html` 是縮圖的版面，用 `assets/render-og.mjs` 截成 `assets/og.png`（1200×630 @2x）。
+PNG 進版控，CI 只負責複製到 `public/og.png`，不需要在 CI 跑瀏覽器。
+
+改了版面之後重新產圖：
+
+```bash
+npm install --no-save playwright
+node assets/render-og.mjs
+```
+
+用的是系統上已安裝的 Chrome（`channel: 'chrome'`），不會另外下載 Chromium。

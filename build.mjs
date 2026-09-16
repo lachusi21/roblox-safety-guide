@@ -1,21 +1,28 @@
 // 把 Artifact 片段（沒有 doctype / head / body）包成完整的獨立網頁，輸出到 public/。
 // 這樣同一份原始檔可以同時發布成 Artifact，也可以架成靜態網站。
 
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, copyFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
 const SITE_NAME = 'Roblox 安全指南';
+
+// 分享連結時的縮圖與正規網址都指向這裡
+const SITE_URL = 'https://roblox-safety-guide.y-rojets.workers.dev';
+const OG_IMAGE = { file: 'assets/og.png', width: 2400, height: 1260 };
+const OG_ALT = '玩 Roblox 這件事——給 15 歲以下玩家的指南，含 11 條安全須知';
 
 const PAGES = [
   {
     src: 'roblox-guide-for-my-son.html',
     out: 'public/index.html',
+    path: '/',
     emoji: '🎮',
     description: '給 15 歲以下玩家的 Roblox 完整指南：這是什麼、玩什麼好、要知道的真實問題，以及 11 條安全須知。',
   },
   {
     src: 'roblox-safety-card.html',
     out: 'public/card.html',
+    path: '/card',
     emoji: '🛡️',
     description: 'Roblox 安全須知 11 條，可直接列印貼在電腦旁，附一份親子約定欄。',
   },
@@ -85,11 +92,20 @@ async function buildPage(page) {
 <meta name="description" content="${page.description}">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="${faviconDataUri(page.emoji)}">
+<link rel="canonical" href="${SITE_URL}${page.path}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="${SITE_NAME}">
 <meta property="og:title" content="${title}">
 <meta property="og:description" content="${page.description}">
-<meta name="twitter:card" content="summary">
+<meta property="og:url" content="${SITE_URL}${page.path}">
+<meta property="og:image" content="${SITE_URL}/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="${OG_IMAGE.width}">
+<meta property="og:image:height" content="${OG_IMAGE.height}">
+<meta property="og:image:alt" content="${OG_ALT}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${SITE_URL}/og.png">
+<meta name="twitter:image:alt" content="${OG_ALT}">
 <style>${RESET}</style>
 ${head}
 <style>${SWITCH_STYLE}</style>
@@ -109,6 +125,10 @@ ${siteSwitch(page.out)}
 async function main() {
   console.log('building…');
   for (const page of PAGES) await buildPage(page);
+
+  // 分享縮圖。PNG 是用 assets/render-og.mjs 事先產好並進版控的，
+  // CI 不需要跑瀏覽器，這裡只是複製過去。
+  await copyFile(OG_IMAGE.file, 'public/og.png');
 
   // GitHub Pages 預設會跑 Jekyll，這個檔案讓它直接輸出原始檔
   await writeFile('public/.nojekyll', '', 'utf8');
